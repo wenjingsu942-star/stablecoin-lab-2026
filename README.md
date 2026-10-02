@@ -303,3 +303,13 @@ The original `SimpleStablecoin` is unchanged, so Ex4 still shows that `MINTER_RO
 | `src/tier3/ConsentedVault.sol` | `redeem` calls `burnFrom`. The holder must `approve` the vault first. The minter key cannot wipe a wallet. |
 
 `test/tier3/ConsentedBurn.t.sol` is the check. `make test` runs it together with the original seven tests.
+
+## Tier 2 — Sepolia
+
+Deployed 2026-10-02 from `0xaf75CE3e7623d10A5A44d0e5AB6c4A27642C1160`. Source verification on Etherscan still needs an `ETHERSCAN_API_KEY`.
+
+| Contract | Address |
+| --- | --- |
+| MockUSDC | [`0xdd21E34A176e7a999e7B821a4a78B9aE93B17F63`](https://sepolia.etherscan.io/address/0xdd21E34A176e7a999e7B821a4a78B9aE93B17F63) |
+| SimpleStablecoin | [`0xbB14Af29E5a1a1cef3Ef15d80be9C3C792ddDD07`](https://sepolia.etherscan.io/address/0xbB14Af29E5a1a1cef3Ef15d80be9C3C792ddDD07) |
+| Vault | [`0x31B6f07b125282a193BaA9A3deD1500CC074557F`](https://sepolia.etherscan.io/address/0x31B6f07b125282a193BaA9A3deD1500CC074557F) |
