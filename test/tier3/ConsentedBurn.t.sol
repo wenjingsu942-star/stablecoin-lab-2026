@@ -71,10 +71,16 @@ contract ConsentedBurnTest is Test {
         assertFalse(ok);
         assertEq(stable.balanceOf(alice), AMOUNT);
 
+        // burn(uint256) always burns the caller. The vault holds none, so this reverts
+        // and Alice's balance is untouched.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IERC20Errors.ERC20InsufficientBalance.selector, address(vault), 0, AMOUNT
+            )
+        );
         vm.prank(address(vault));
         stable.burn(AMOUNT);
         assertEq(stable.balanceOf(alice), AMOUNT);
-        assertEq(stable.balanceOf(address(vault)), 0);
     }
 
     function test_Attacker_CannotBurnFromAlice() public {
