@@ -8,7 +8,8 @@ RPC_DEFAULT=https://ethereum-sepolia-rpc.publicnode.com
 
 if [[ ! -f .env ]] || grep -q '0000000000000000000000000000000000000000000000000000000000000000' .env; then
   umask 077
-  OUT=$(cast wallet new)
+  # cast prints the keypair on stderr. Capture both streams and never echo them.
+  OUT=$(cast wallet new 2>&1)
   ADDR=$(echo "$OUT" | awk '/Address/ {print $2}')
   KEY=$(echo "$OUT" | awk '/Private key/ {print $3}')
   if [[ -z "$ADDR" || -z "$KEY" ]]; then
