@@ -292,3 +292,14 @@ flowchart LR
 ```
 
 The peg is the loop, not the ERC-20. `deposit` moves mUSDC in and mints the same integer of sUSD. `redeem` burns that sUSD and sends the mUSDC back. The invariant is `vault.totalCollateral() == stable.totalSupply()` for this 1:1 vault. `OverCollateralizedVault` is a second system: collateral is 18-decimal mWETH, a price feed uses 8 decimals, minting must leave at least 150% coverage, and a position below 120% can be liquidated for a 10% bonus.
+
+## Tier 3 — consented burn
+
+The original `SimpleStablecoin` is unchanged, so Ex4 still shows that `MINTER_ROLE` can burn any balance. The fix lives beside it:
+
+| File | What changed |
+| --- | --- |
+| `src/tier3/ConsentedStablecoin.sol` | `mint` stays on `MINTER_ROLE`. There is no `burn(address,uint256)`. A holder burns with `burn(uint256)`. Someone else burns only through `burnFrom`, which spends an allowance. |
+| `src/tier3/ConsentedVault.sol` | `redeem` calls `burnFrom`. The holder must `approve` the vault first. The minter key cannot wipe a wallet. |
+
+`test/tier3/ConsentedBurn.t.sol` is the check. `make test` runs it together with the original seven tests.
