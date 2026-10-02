@@ -268,3 +268,27 @@ These have no standard answers. They are the real point of this lab:
    `totalCollateral()` invariant?
 
 Question 4 is the door into next week's RWA lab.
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+  user[User]
+  usdc[MockUSDC<br/>collateral, 6 decimals]
+  vault[Vault<br/>mint / redeem loop]
+  susd[SimpleStablecoin<br/>sUSD, 6 decimals]
+  admin[Admin]
+
+  user -->|1. approve + deposit| vault
+  vault -->|pull mUSDC| usdc
+  vault -->|2. mint sUSD 1:1| susd
+  susd -->|sUSD balance| user
+  user -->|3. redeem: burn sUSD| vault
+  vault -->|4. return mUSDC| user
+  admin -->|grant MINTER_ROLE| susd
+  susd -.->|role lets the vault mint and burn| vault
+```
+
+The peg is the loop, not the ERC-20. `deposit` moves mUSDC in and mints the same integer of sUSD. `redeem` burns that sUSD and sends the mUSDC back. The invariant is `vault.totalCollateral() == stable.totalSupply()` for this 1:1 vault. `OverCollateralizedVault` is a second system: collateral is 18-decimal mWETH, a price feed uses 8 decimals, minting must leave at least 150% coverage, and a position below 120% can be liquidated for a 10% bonus.
