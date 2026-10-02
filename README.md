@@ -306,7 +306,7 @@ The original `SimpleStablecoin` is unchanged, so Ex4 still shows that `MINTER_RO
 
 ## Tier 2 — Sepolia
 
-Deployed 2026-10-02 from `0xaf75CE3e7623d10A5A44d0e5AB6c4A27642C1160`. Source verification on Etherscan still needs an `ETHERSCAN_API_KEY`.
+Deployed 2026-10-02 from `0xaf75CE3e7623d10A5A44d0e5AB6c4A27642C1160`. Source is verified on Etherscan. The API key stays in `.env` and is not in this repo.
 
 | Contract | Address |
 | --- | --- |
